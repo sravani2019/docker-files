@@ -2,8 +2,16 @@ resource "aws_instance" "docker" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.docker.id]
-#   user_data = file("${path.module}/docker.sh")
-
+  user_data = templatefile("${path.module}/user.sh.tftpl", {
+    partition_number = 4
+    extend_size = 45
+  })
+  root_block_device {
+    volume_size = 50
+    volume_type = "gp3"
+    delete_on_termination = true
+  
+  }
  
   provisioner "remote-exec" {
     inline = [
