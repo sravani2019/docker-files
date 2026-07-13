@@ -4,7 +4,7 @@ resource "aws_instance" "docker" {
   vpc_security_group_ids = [aws_security_group.docker.id]
   user_data = templatefile("${path.module}/user.sh.tftpl", {
     partition_number = 4
-    extend_size = 45
+    extend_size = 30
   })
   root_block_device {
     volume_size = 50
